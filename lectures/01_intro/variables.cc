@@ -41,8 +41,10 @@ int main() {
   // narrowing effect
   int var = 6.9; // try to initialize var with the universal and
                  // uniform initialization
-  // int v_narrow {6.9}; // compiler error or warning with variables
-  // int v_narrow_w {int(a+b)}; // suppress error/warning with a cast
+  //int v_narrow {6.9}; // compiler error or warning with variables			error
+//   int v_narrow_w {int(a+b)}; // suppress error/warning with a cast
+   int v_narrow_w {a+b};		//warning
+
 
   std::cout << var << "\n";
 
@@ -78,16 +80,19 @@ int main() {
   const int cc{7};
   // cc = 9;			// error
 
-  constexpr double ce{cc * 8.1234 / M_PI}; // evaluated at compile-time
+  constexpr double ce{cc * 8.1234 / M_PI}; // evaluated at compile-time (performance)
 
   int ve{int(ce * a)}; // ok create a variable from constexpr
 
   // constexpr int  n_ce {ve*8.1234/M_PI}; // error
 
   // cast to void to suppress warning of unused variable
-  (void)ve;
-  long double lpi = 3.141592653589793238462L;
+  //	(void)ve;
+  long double lpi = 3.141592653589793238462L;		//important to put L at the end
+  auto lpi2 = 3.141592653589793238462L;		//important to put L at the end
   std::cout << std::setprecision(50) << M_PI << std::endl;
+  std::cout << std::setprecision(50) << lpi << std::endl;
+  std::cout << std::setprecision(50) << lpi2 << std::endl;
   std::cout << std::hex << 43 << std::endl;
   std::cout << std::oct << 43 << std::endl;
   std::cout << std::dec << 43 << std::endl;
