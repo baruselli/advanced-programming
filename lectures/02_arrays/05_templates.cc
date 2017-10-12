@@ -26,6 +26,8 @@ int main(int argc, char* argv[]) {
     vd[i] = i * 1.1;
   }
 
+  
+  
   print_vector<int>(v, len);
   std::cout << std::endl;
 

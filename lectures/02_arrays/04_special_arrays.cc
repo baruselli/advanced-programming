@@ -34,12 +34,13 @@ int main() {
   // int *pma[5] = ma;		// error
   int* p = &ma[0][0];
 
+  print_ma(*ma, 6, 5);
   print_ma(p, 6, 5);
 
   int* d_ma = new int[6 * 5];
   delete[] d_ma;
 
-  char** argv = new char*[2];
+  char** argv = new char*[2];       //pointer to pointer of char
   char f[] = {'.', '/', 'a', '.', 'o', 'u', 't', 0};
   char s[] = {'-', '-', 'h', 'e', 'l', 'p', 0};
 
