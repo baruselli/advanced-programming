@@ -1,14 +1,26 @@
 #include <cstring>
 #include <iostream>
 
+void print(int *p, int dim){
+    for (int i=0; i<dim;i++)
+        std::cout<< p[i]<<std::endl;
+    }
+    
 int main() {
   int ai[4];
   float af[9];
+  int a[]{2,6,5};
+  int b[5]{2,6,5};
+  
   ai[0] = 9;    // first element
   af[8] = 3.3;  // last element
-  ai[88] = 7;   // undefined behavior, no range checking
+//  ai[88] = 7;   // undefined behavior, no range checking
 
-  for (size_t k = 0; k < 4; ++k)
+  print(ai,4);
+  
+  std::cout<< sizeof(a)<< " "<<sizeof(b) <<" "<<sizeof(*b)<<std::endl;
+  
+  for (int k = 0; k < 4; ++k)
     std::cout << "ai[" << k << "] = " << ai[k] << '\n';
 
   std::cout << "\n-------------------------------\n\n";
