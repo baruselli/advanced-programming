@@ -4,8 +4,10 @@
 template <typename num>
 num* init_vector(int len) {
     num* v = new num[len];
+
     for (int i =len-1; i > -1; --i)
         v[i]=0;
+//    return v;
     return v;
 }
 
@@ -28,8 +30,7 @@ int main(int argc, char* argv[]) {
     std::cin >> v[i];   
  
     print_vector_reverse<int>(v,len);
-    
-    
+        
     
     
      return 0;
