@@ -37,7 +37,7 @@ int main(int argc, char* argv[]) {
 //    v= init_vector<int>(len);
 =======
     
-    int* v= init_vector<int>(len);
+    double* v= init_vector<int>(len);
  
     for (int i=0; i < len; ++i)
     std::cin >> v[i];   
