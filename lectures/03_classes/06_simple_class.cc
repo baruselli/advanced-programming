@@ -2,13 +2,14 @@
 #include <string>
 
 class Vector {
-  double* elem;
   unsigned int _size;
+  double* elem;
+
 
  public:
-  Vector(const unsigned int size) : _size{size}, elem{new double[size]} {}
+  Vector(const unsigned int size) : _size{size}, elem{new double[size]} {}      //constructor: same name of class
 
-  ~Vector() { delete[] elem; }
+  ~Vector() { delete[] elem; }  //destructor: ~ in front
 
   unsigned int size() const { return _size; }
 
