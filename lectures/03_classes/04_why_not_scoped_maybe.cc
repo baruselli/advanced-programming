@@ -10,7 +10,7 @@ enum multiple_flags : unsigned int {
   flag5 = 16,  // imply flag3
 
   // useful combinations
-  comb1 = flag1 | flag2,
+  comb1 = flag1 | flag2,        //bitwise or
   comb2 = flag1 | flag3,
   comb3 = comb1 | flag3,
 };
