@@ -6,7 +6,8 @@ using namespace std;
 
 int main() {
   cout << nov << endl;
-  // cout << dec << endl;
-
+  cout << month::oct << endl;
+  cout << std::oct << endl;
+  //cout << oct << endl;
   return 0;
 }

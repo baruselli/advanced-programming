@@ -6,6 +6,7 @@ struct Point_s {
 };
 
 class Point_c {
+//public:
   double x;
   double y;
 };
@@ -17,12 +18,13 @@ int main() {
 
   Point_c pc;
   // pc.x =7.6; // error
+  std::cout << pc.x  << std::endl;    //error
 
-  Point_s* p = &ps;
+  Point_s* p = &ps; //pointer to struct
 
-  p->x = 0.0;
+  p->x = 0.1;
 
-  std::cout << p->y << std::endl;
+  std::cout << p->x << " "<<    p->y << std::endl;
 
   return 0;
 }
