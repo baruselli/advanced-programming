@@ -12,21 +12,39 @@ unsigned int day() const {return _day;}
 unsigned int month() const{ return _month;} 
 int year() const{ return _year;}
 void add_day(const unsigned int n);
+void add_one_day();
+int days_in_month[12]{30,28,31,30,31,30,30,31,30,31,30,31};
 
 private:
     unsigned int _day;
     unsigned int _month;
     int _year;
-    int days_in_month[12]{30,28,31,30,31,30,30,31,30,31,30,31};
+   
     
 }; // note the ; at the end of class definition
 
+void Date::add_one_day(){
+
+if (days_in_month[_month-1]==_day && _month<12){
+    _day=1;
+    _month++;}
+else if (days_in_month[_month-1]==_day && _month==12){
+    _day=1;
+    _month=1;
+    _year++;
+}
+else if (days_in_month[_month-1]!=_day){
+    _day++;
+}    
+else{
+ std::cout<<day()<<std::endl;   
+    
+}
+}
 
 void Date::add_day(const unsigned int n){
  
-  
-    
- _day=_day+n;
+for (int m=0;m<n;m++) add_one_day();
  
      
 }
@@ -45,18 +63,30 @@ std::ostream& operator<<(std::ostream& os, const Date& d){
  return os << d.day() << "/"<< d.month()<< "/" << d.year() ;    
 }
 
+bool is_leap(const int y){
+return (((y%4==0) && (y%100!=0)) || ((y%100==0) && (y%400==0))) ;  
+}
+
+
 int main() {
- Date d{30,3,1984};
- Date d2{30,3,1984};
+Date d{30,3,1984};
+Date d2{30,3,1984};
 Date d3{31,3,1984};
-d.add_day(0);
- 
- std::cout << d<< std::endl;
+
+d.add_day(10);
+std::cout << d<< std::endl;
+d.add_day(45);
+std::cout << d<< std::endl;
+
+  std::cout << d2<< std::endl;
+   std::cout << d3<< std::endl;
  
  std::cout << (d==d2)<< (d!=d2)<< std::endl;
  std::cout << (d==d3)<< (d!=d3)<<std::endl;
 
+ 
 
+std::cout << is_leap(1984)<< is_leap(1985)<<is_leap(1900)<<is_leap(2000)<<std::endl;
 
   return 0;
 }
