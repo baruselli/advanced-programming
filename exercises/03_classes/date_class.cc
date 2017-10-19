@@ -23,20 +23,45 @@ private:
 
 
 void Date::add_day(const unsigned int n){
+ 
+  
     
- _day=_day+n;       
-    
+ _day=_day+n;
+ 
+     
 }
 
 
+bool operator==(const Date& lhs, const Date& rhs){
+ return ((lhs.day()==rhs.day())&& (lhs.month()==rhs.month())&& (lhs.year()==rhs.year()))  ;  
+}
+
+bool operator!=(const Date& lhs, const Date& rhs){
+ return !(lhs==rhs)  ;  
+}
+
+
+std::ostream& operator<<(std::ostream& os, const Date& d){
+ return os << d.day() << "/"<< d.month()<< "/" << d.year() ;    
+}
+
 int main() {
  Date d{30,3,1984};
-d.add_day(20);
+ Date d2{30,3,1984};
+Date d3{31,3,1984};
+d.add_day(0);
  
- std::cout << d.day()<< std::endl;
+ std::cout << d<< std::endl;
+ 
+ std::cout << (d==d2)<< (d!=d2)<< std::endl;
+ std::cout << (d==d3)<< (d!=d3)<<std::endl;
 
 
 
   return 0;
 }
+
+
+
+
 
