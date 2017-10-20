@@ -1,34 +1,52 @@
+//HOW DO I PRINT month_name from enum?
+//how do I print the object inside a method definition using the new defined << Date << ? I do not have the object's name there!
+
 #include <iostream>
 #include <string>
+
+enum class month_name_enum {jan=1,feb=2,mar=3,apr=4,may=5,jun=6,jul=7,aug=8,sep=9,oct=10,nov=11,dec=12};
+
+
 
 class Date{
 public:
 
-Date(const unsigned int day_in, const unsigned int month_in, const int year_in):_day{day_in},_month{month_in},_year{year_in} {} 
-~Date() {}
+    Date(const unsigned int day_in, const unsigned int month_in, const int year_in):
+        _day{day_in},_month{month_in},_year{year_in} {} 
+    Date(const unsigned int day_in, month_name_enum month_name_in, const int year_in):
+        _day{day_in},_month_name{month_name_in},_year{year_in},_month{(unsigned int) month_name_in} {} 
+    ~Date() {}
 
-//inline
-unsigned int day() const {return _day;} 
-unsigned int month() const{ return _month;} 
-int year() const{ return _year;}
-//I put is_leap inside the class because I need it for the add_day() method
-bool is_leap(const int y){return (((y%4==0) && (y%100!=0)) || ((y%100==0) && (y%400==0))) ; }
+    //inline
+    unsigned int day() const {return _day;} 
+    unsigned int month() const{ return _month;} 
+    month_name_enum month_name() const { return _month_name;} 
+    int year() const{ return _year;}
+    //I put is_leap inside the class because I need it for the days_in_month() method
+    bool is_leap(const int y){return (((y%4==0) && (y%100!=0)) || ((y%100==0) && (y%400==0))) ; }
+    
+    //void print_date(Date d){std::cout << d << std::endl;} //??????????????????
+    void print_date(){std::cout << this << std::endl;} //??????????????????  
+    //void print_date(){std::cout << (*this) << std::endl;} //??????????????????  
+    
+    //implemented outside
+    void add_day(const unsigned int n);
+    void add_one_day();
+    int days_in_month(int m,bool leap);
 
-//implemented outside
-void add_day(const unsigned int n);
-void add_one_day();
-int days_in_month(int m,bool leap);
-
+ 
 
 private:
     unsigned int _day;
     unsigned int _month;
     int _year;
-   
+    month_name_enum _month_name;
+
+
+    
 }; // note the ; at the end of class definition
 
 void Date::add_one_day(){
-
 if (days_in_month(_month, is_leap(_year))==_day && _month<12){
     _day=1;
     _month++;}
@@ -41,7 +59,7 @@ else if (days_in_month(_month, is_leap(_year))!=_day){
     _day++;
 }    
 else{
- std::cout<<"error in add_one_day" <<day()<<std::endl;   
+ std::cout<<"error in add_one_day" <<day()<<month()<<year()<<std::endl;   
 }
 }
 
@@ -71,6 +89,8 @@ std::ostream& operator<<(std::ostream& os, const Date& d){ return os << d.day() 
 
 
 int main() {
+    
+    
 Date d{30,3,1984};
 Date d2{30,3,1984};
 Date d3{31,3,1984};
@@ -120,6 +140,19 @@ std::cout << d8<< std::endl;
 
 
 std::cout << d.is_leap(1984)<< d.is_leap(1985)<<d.is_leap(1900)<<d.is_leap(2000)<<std::endl;
+
+
+/////////////////////
+std::cout << "testing enum" <<std::endl;    
+    
+Date d10{30,month_name_enum::mar,1984};
+std::cout << d10 <<std::endl;
+d10.add_day(365);
+std::cout << d10 <<std::endl;
+std::cout <<(int) d10.month_name() <<std::endl; 
+//std::cout <<d10.month_name() <<std::endl; 
+//HOW DO I PRINT "mar"?
+d10.print_date();
 
   return 0;
 }

@@ -5,7 +5,6 @@ int main(){
 
 std::string line_in;
 std::string line_old="";
-
 int n=0;
 bool beginning=1;
 
@@ -23,7 +22,6 @@ beginning=0;
 }
 
   std::cout << n << " "<< line_old << std::endl;
-
 
  return 0;
 
