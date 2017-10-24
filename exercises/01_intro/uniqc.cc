@@ -8,6 +8,7 @@ std::string line_old="";
 int n=0;
 bool beginning=1;
 
+<<<<<<< HEAD
 int n=0;
 bool beginning=1;
 
@@ -26,7 +27,6 @@ beginning=0;
 
   std::cout << n << " "<< line_old << std::endl;
 
-=======
 while(std::getline(std::cin,line_in))
 {
 if (line_in == line_old)
@@ -44,4 +44,3 @@ beginning=0;
 
  return 0;
 
-}
