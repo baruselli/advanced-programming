@@ -1,7 +1,7 @@
 #include <cmath>
 #include <iostream>
 
-// implment a square root function that "deals with" negative
+// implement a square root function that "deals with" negative
 // numbers. Moreover according to the logic of the program, d should
 // never be greater than 50
 double square_root(const double d);
@@ -29,10 +29,10 @@ int main() {
               << "This means there is a bug in the algorithm that generated "
                  "this number.\n";
     return 2;
-  } catch (...) {
+  } /*catch (...) {
     std::cerr << "Unknown exception. Aborting.\n";
     return 3;
-  }
+  }*/
 }
 
 double square_root(const double d) {

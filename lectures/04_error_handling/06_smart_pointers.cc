@@ -26,7 +26,7 @@ class ManyResources {
 
 int main() {
   try {
-    std::unique_ptr<int[]>{new int[7]};
+    std::unique_ptr<int[]> ptr {new int[7]};
     ManyResources mr;
 
   } catch (std::exception& e) {

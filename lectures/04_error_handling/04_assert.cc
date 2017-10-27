@@ -25,8 +25,8 @@ int main() {
 
 double square_root(const double d) {
   // test the pre-conditions
-  assert(d >= 0 && d <= 50);
-  // AP_assert(d>=0 && d<=50, "d should be in the range [0,50]", "d=",d);
+  //assert(d >= 0 && d <= 50);        //only with debug: with -DNDEBUG set it is not called
+   AP_assert(d>=0 && d<=50, "d should be in the range [0,50]", "d=",d);
   // AP_assert(d >= 0 && d <= 50, NotInRange(0, 50, d));
   return sqrt(d);
 }

@@ -31,7 +31,7 @@ class Vector {
 class ManyResources {
   double* ptr;
   Vector v;
-
+    
  public:
   ManyResources() : ptr{nullptr}, v{3} {
     std::cout << "Manyresources\n";
@@ -45,7 +45,7 @@ class ManyResources {
     }
   }
 
-  ~ManyResources() noexcept {
+  ~ManyResources() noexcept {           //destructor mustn't throw exceptions
     std::cout << "Manyresources\n";
     delete[] ptr;  // <----
   }

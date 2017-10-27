@@ -1,5 +1,7 @@
 #ifndef __AP_ERROR_H__
 #define __AP_ERROR_H__
+//to avoid multiple copies of include
+
 
 #include <assert.h>
 #include <iostream>
@@ -29,7 +31,7 @@ namespace ap {
 
   template <typename T1, typename T2, typename... Tail>
   void error(const T1& f, const T2& s, const Tail&... rest) {
-    /* std::cout << __PRETTY_FUNCTION__ << std::endl; */
+    std::cout << __PRETTY_FUNCTION__ << std::endl; 
     std::ostringstream os;
     os << f << internal::sep << s;
     error(os.str(), rest...);

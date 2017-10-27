@@ -18,8 +18,8 @@ int main() {
     double d = square_root(number);
     std::cout << "square root of " << number << " is " << d << '\n';
     return 0;
-  } catch (Square_root_invalid& s) {
-    std::cerr << s.message << std::endl;
+  } catch (Square_root_invalid& s) {        
+    std::cerr << s.message << std::endl;     //the user does not have to set an error message, it is set by who writes the fct
     return 1;
   } catch (...) {
     std::cerr << "Unknown exception. Aborting.\n";
