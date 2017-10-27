@@ -85,7 +85,7 @@ namespace ap {
          << "       line: " << line << "\n\n"
          << "with the following output:\n\n"
          << f;
-      error(std::string{os.str()}, rest...);
+      error(os.str(), rest...);
     }
   }  // close namespace internal
 }  // close namespace ap

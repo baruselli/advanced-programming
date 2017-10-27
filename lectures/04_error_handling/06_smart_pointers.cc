@@ -1,5 +1,4 @@
 #include <iostream>
-#include <vector>
 #include <memory>
 
 #include "ap_error.h"
@@ -26,10 +25,10 @@ class ManyResources {
 
 int main() {
   try {
-    std::unique_ptr<int[]> ptr {new int[7]};
+    std::unique_ptr<int[]> up{new int[7]};
     ManyResources mr;
 
-  } catch (std::exception& e) {
+  } catch (const std::exception& e) {
     std::cerr << e.what() << std::endl;
     return 1;
 
