@@ -24,7 +24,6 @@ public:
     int year() const{ return _year;}
     //I put is_leap inside the class because I need it for the days_in_month() method
     bool is_leap(const int y){return (((y%4==0) && (y%100!=0)) || ((y%100==0) && (y%400==0))) ; }
-    
     void print_date(){std::cout << day()<< " " << month_name() <<" "<< year()<< std::endl;} 
     
     //implemented outside
@@ -100,11 +99,8 @@ bool operator!=(const Date& lhs, const Date& rhs){ return !(lhs==rhs)  ;}
 
 std::ostream& operator<<(std::ostream& os, const Date& d){ return os << d.day() << "/"<< d.month()<< "/" << d.year() ;}
 
-std::ostream& operator<<(std::ostream& os, const month_name_enum m){
+std::ostream& operator<<(std::ostream& os, const month_name_enum m){return os << list_month_names[int(m)-1];} 
 
-    return os << list_month_names[int(m)-1];
-    
-}
 int main() {
     
     
