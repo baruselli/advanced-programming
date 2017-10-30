@@ -45,13 +45,13 @@ public:
     //I put is_leap inside the class because I need it for the days_in_month() method
     bool is_leap(const int y){return (((y%4==0) && (y%100!=0)) || ((y%100==0) && (y%400==0))) ; }
     void print_date(){std::cout << day()<< " " << month_name() <<" "<< year() << " ";} 
+    bool is_date_valid(){return (day()<=days_in_month(month(), is_leap(year())));}  //all the other checks have been already done 
     
     //implemented outside
     void add_day(const unsigned int n);
     void add_one_day();
     int days_in_month(int m,bool leap);
     month_name_enum get_enum_from_int (int n);
-    bool is_date_valid(){return (day()<=days_in_month(month(), is_leap(year())));}  //all the other checks have been already done 
 
 private:
     unsigned int _day;
@@ -195,7 +195,7 @@ std::cout <<d10.month_enum() <<std::endl;
 std::cout << "testing exceptions" <<std::endl; 
 
 //I would like smthng like this:
-//for tuple in ((1,1,2017),(31,12,2017)),
+//for tuple in ((1,1,2017),(29,2,2000),(31,12,2017)),
 //  try
 //      print(date{tuple})
 //  catch
