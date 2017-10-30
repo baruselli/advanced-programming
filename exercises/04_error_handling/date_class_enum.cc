@@ -4,15 +4,35 @@
 enum class month_name_enum {jan=1,feb=2,mar=3,apr=4,may=5,jun=6,jul=7,aug=8,sep=9,oct=10,nov=11,dec=12};
 const char* const  list_month_names[12]={"jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec"};
 
+struct Wrong_date {
+  std::string message;
+};
+
 
 class Date{
 public:
+    
     //Constructor with int for month
     Date(const unsigned int day_in, const unsigned int month_in, const int year_in):
-        _day{day_in},_month_enum{get_enum_from_int(month_in)},_year{year_in} {} 
+        Date {day_in, get_enum_from_int(month_in), year_in} {}
+    //    _day{day_in},_month_enum{get_enum_from_int(month_in)},_year{year_in} {} 
+    
     //Constructor with enum for month
-    Date(const unsigned int day_in, month_name_enum month_name_in, const int year_in):
-        _day{day_in},_month_enum{month_name_in},_year{year_in} {} 
+    Date(const unsigned int day_in, month_name_enum month_name_in, const int year_in)
+        {
+        if(day_in>0 && day_in<32) _day=day_in;
+        else throw(Wrong_date{"The day must be between 1 and 31. You gave me " + std::to_string(day_in)});
+        _month_enum=month_name_in;
+        
+        if(year_in>0) _year=year_in;
+        else throw(Wrong_date{"The year must be between positive. You gave me " + std::to_string(year_in)});
+        
+        if (!is_date_valid()) {
+            print_date();
+            throw(Wrong_date{"The given date is invalid (day in month not correct)."});
+            }
+        }
+        
     //Destructor
     ~Date() {}
 
@@ -24,14 +44,14 @@ public:
     int year() const{ return _year;}
     //I put is_leap inside the class because I need it for the days_in_month() method
     bool is_leap(const int y){return (((y%4==0) && (y%100!=0)) || ((y%100==0) && (y%400==0))) ; }
-    void print_date(){std::cout << day()<< " " << month_name() <<" "<< year()<< std::endl;} 
+    void print_date(){std::cout << day()<< " " << month_name() <<" "<< year() << " ";} 
     
     //implemented outside
     void add_day(const unsigned int n);
     void add_one_day();
     int days_in_month(int m,bool leap);
     month_name_enum get_enum_from_int (int n);
- 
+    bool is_date_valid(){return (day()<=days_in_month(month(), is_leap(year())));}  //all the other checks have been already done 
 
 private:
     unsigned int _day;
@@ -88,8 +108,12 @@ month_name_enum Date::get_enum_from_int (int n){
         case 10 :  return month_name_enum::oct;
         case 11 :  return month_name_enum::nov;
         case 12 :  return month_name_enum::dec;
+        default: throw(Wrong_date{ "The month must be between 1 and 12. You gave me " + std::to_string(n)});
     }    
 }
+
+
+
 
 bool operator==(const Date& lhs, const Date& rhs){
  return ((lhs.day()==rhs.day())&& (lhs.month()==rhs.month())&& (lhs.year()==rhs.year()))  ;  
@@ -166,5 +190,49 @@ std::cout <<d10.month_name() <<std::endl;
 d10.print_date();
 //here I print the enum directly
 std::cout <<d10.month_enum() <<std::endl; 
+
+/////////////////////
+std::cout << "testing exceptions" <<std::endl; 
+
+//I would like smthng like this:
+//for tuple in ((1,1,2017),(31,12,2017)),
+//  try
+//      print(date{tuple})
+//  catch
+//      "error message"
+
+
+for (unsigned int day=0; day<40; day++){
+    try {
+        std::cout<< Date{day,2,1984} <<std::endl;
+    } catch (const Wrong_date& s) {
+        std::cerr << s.message << std::endl;
+    } catch (...) {
+        std::cerr << "Unknown exception. Aborting.\n";
+    }
+}
+
+for (unsigned int month=0; month<20; month++){
+    try {
+        std::cout<< Date{31,month,1984} <<std::endl;
+    } catch (const Wrong_date& s) {
+        std::cerr << s.message << std::endl;
+    } catch (...) {
+        std::cerr << "Unknown exception. Aborting.\n";
+    }
+}
+
+
+for (int year=1900; year<2017; year++){
+    try {
+        std::cout<< Date{29,2,year} <<std::endl;
+    } catch (const Wrong_date& s) {
+        std::cerr << s.message << std::endl;
+    } catch (...) {
+        std::cerr << "Unknown exception. Aborting.\n";
+    }
+}
+
+
   return 0;
 }
