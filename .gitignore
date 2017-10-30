@@ -6,3 +6,4 @@ bucket*
 ./*/*.x
 ./*/*/*/*.x
 *html
+*pdf
