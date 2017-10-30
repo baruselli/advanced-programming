@@ -8,8 +8,9 @@ const char* const  list_month_names[12]={"jan","feb","mar","apr","may","jun","ju
 class Date{
 public:
     //Constructor with int for month
-    Date(const unsigned int day_in, const unsigned int month_in, const int year_in):
-        _day{day_in},_month_enum{get_enum_from_int(month_in)},_year{year_in} {} 
+    Date(const unsigned int day_in, const unsigned int month_in, const int year_in) : 
+        Date {day_in, get_enum_from_int(month_in), year_in} {}
+    //       _day{day_in},_month_enum{get_enum_from_int(month_in)},_year{year_in} {} 
     //Constructor with enum for month
     Date(const unsigned int day_in, month_name_enum month_name_in, const int year_in):
         _day{day_in},_month_enum{month_name_in},_year{year_in} {} 
