@@ -24,6 +24,9 @@ class ManyResources {
 };
 
 int main() {
+    
+    Vector a{10};
+    std::cout << a[0] <<std::endl;
   try {
     std::unique_ptr<int[]> up{new int[7]};
     ManyResources mr;
