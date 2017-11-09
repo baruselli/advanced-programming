@@ -10,7 +10,9 @@ class Vector{
   unsigned int _size;
   std::unique_ptr<num[]> elems;
 public:
-  explicit Vector(const unsigned int s) : elems{new num[s]}, _size{s} {}            //explicit???
+  explicit Vector(const unsigned int s) : elems{new num[s]}, _size{s} {}            //explicit to avoid implicit conversion
+                                                                                    //int-->Vector for a fct that takes a Vector and 
+                                                                                    //is supplied an int
   // Vector(std::initializer_list<num> lst);
   ~Vector()  {}                                                                     //do I need a destructor? 
                                                                                     //do I need to put anything in it?
@@ -18,7 +20,8 @@ public:
   unsigned int size() const noexcept {return _size;}
 
   num& operator[](const unsigned int i) noexcept    {return elems[i];}
-  const num& operator[](const unsigned int i) const noexcept   {return elems[i];}   //why this second definition?
+  const num& operator[](const unsigned int i) const noexcept   {return elems[i];}   
+  //why this second definition? for const and not const functions, must be both implemented and cannot call each other
 
   num& at(const unsigned int i);                                                    
   const num& at(const unsigned int i) const;
@@ -28,26 +31,26 @@ public:
   
   const num* end() const {return &elems[_size];}
   num* end() noexcept {return &elems[_size];}
+ // from 05lecture/04
+   //const num* begin() const noexcept { return elem.get(); }
+ // num* begin() noexcept { return elem.get(); }
+
+  //const num* end() const noexcept { return elem.get() + _size; }
+ // num* end() noexcept { return elem.get() + _size; }
  
-  void resize(const Vector& v);
+  //elem.reset(new num[_size]);
+ 
+  void resize(const Vector& v){resize(v._size);}
   void resize(const unsigned int s)
   {
       
       if (s>size()){
           int size_old=size();
           _size=s;
-          std::unique_ptr<num[]> elems_temp{ new num[s]};
-          for (int j = 0;j<size_old; j++) elems_temp[j]=elems[j];
-          for (int j = size_old;j<s; j++) elems_temp[j]=0;
-    //      elems=elems_temp;                                           //no idea
-    //      elems=&elems_temp[0];                                           //no idea
-
-     
-        Vector<num> b{s};
-        for (int j = 0;j<size_old; j++) b[j]=elems[j];
-        for (int j = size_old;j<s; j++) b[j]=0;
-        print_vector("b",b);
-    //    elems=b.begin();                                                      //no idea
+          num* temp=new num[s]; 
+          for (int j = 0;j<size_old; j++) temp[j]=elems[j];
+          for (int j = size_old;j<s; j++) temp[j]=0;
+          elems.reset(temp);
      }
       else{
           _size=s;
@@ -103,6 +106,11 @@ int main()
     
     a.resize(15);
     print_vector("a",a);
+    
+    Vector<int> b{3};
+    a.resize(b);
+    print_vector("a",a);
+    
 try{
     std::cout << a.at(4) <<std::endl;
     std::cout << a.at(20) <<std::endl;
