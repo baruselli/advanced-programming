@@ -65,7 +65,7 @@ int main() {
   std::cout << "v1[6] = 77;\n";
 
   v2.deep_copy();
-  v2.deep_copy();
+ // v2.deep_copy();
   v1[6] = 77;
 
   std::cout << "v1 = " << v1;

@@ -18,7 +18,7 @@ struct Y {
 int main() {
   X x1;    // default ctor
   X x2{};  // default ctor
-  // X x3 {1,2.3,'t'}; // compile error - fixed
+  //X x3 {1,2.3,'t'}; // compile error - fixed in c++17
   std::cout << x1.a << "--" << x1.b << "--" << x1.c << "\n";
   std::cout << x2.a << "--" << x2.b << "--" << x2.c << "\n\n";
 

@@ -1,7 +1,7 @@
 #include <iostream>
 
 struct X {
-  char member;
+  char member;          //builtin types are not initialized by default (it keeps what is in the RAM)
 };
 
 int main() {
@@ -12,6 +12,6 @@ int main() {
   x4 = x3;              // copy assignment
   X x5;                 // default ctor
   x5 = std::move(x4);   // move assignment
-  std::cout << x5.member << std::endl;  // what do you expect??
+  std::cout << x5.member << std::endl;  // what do you expect?? unpredictable
   return 0;
 }

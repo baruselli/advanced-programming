@@ -4,7 +4,7 @@
 template <typename num>
 class Vector {
   std::size_t _size;
-  std::unique_ptr<num[]> elem;
+  std::unique_ptr<num[]> elem;              //the pointer is unique, hence it forbids copy; it has a X(const X&)=delete;
 
  public:
   explicit Vector(const std::size_t length)
@@ -25,6 +25,6 @@ class Vector {
 
 int main() {
   Vector<double> v1{7};
-  // Vector<double> v2{v1}; // default copy ctor
+//  Vector<double> v2{v1}; // default copy ctor:: use of deleted function ‘Vector<double>::Vector(const Vector<double>&)’
   return 0;
 }
