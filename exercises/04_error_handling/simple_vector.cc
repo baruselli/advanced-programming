@@ -28,13 +28,21 @@ public:
   
   const num* end() const {return &elems[_size];}
   num* end() noexcept {return &elems[_size];}
+ // from 05lecture/04
+   //const num* begin() const noexcept { return elem.get(); }
+ // num* begin() noexcept { return elem.get(); }
+
+  //const num* end() const noexcept { return elem.get() + _size; }
+ // num* end() noexcept { return elem.get() + _size; }
+ 
+  //elem.reset(new num[_size]);
  
   void resize(const Vector& v);
   void resize(const unsigned int s)
   {
       
       if (s>size()){
-          int size_old=size();
+     /*     int size_old=size();
           _size=s;
           std::unique_ptr<num[]> elems_temp{ new num[s]};
           for (int j = 0;j<size_old; j++) elems_temp[j]=elems[j];
@@ -47,7 +55,12 @@ public:
         for (int j = 0;j<size_old; j++) b[j]=elems[j];
         for (int j = size_old;j<s; j++) b[j]=0;
         print_vector("b",b);
-    //    elems=b.begin();                                                      //no idea
+    //    elems=b.begin(); //no idea*/
+        
+       int size_old=size() ;
+       _size=s;
+        elems.reset(new num[_size]);
+        //for (int j = 0;j<size_old; j++) elems[j]=???;
      }
       else{
           _size=s;
