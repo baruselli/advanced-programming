@@ -50,6 +50,8 @@ std::ostream& operator<<(std::ostream& os, const Vector<num>& v) {
 int main() {
   Vector<double> v1{7};
   Vector<double> v2{v1};
+ // Vector<double> v2{std::copy(v1)};     //does not compile
+ // Vector<double> v2{std::move(v1)};     //segfault
 
   std::cout << "v1 = " << v1;
   std::cout << "v2 = " << v2;

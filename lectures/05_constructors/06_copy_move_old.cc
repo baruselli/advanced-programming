@@ -8,42 +8,37 @@ class Vector {
   std::unique_ptr<num[]> elem;
 
  public:
-// default ctor
-  Vector() { std::cout << "default ctor\n"; }
-
-// custom ctor
+  // custom ctor
   explicit Vector(const std::size_t length)
       : _size{length}, elem{new num[length]{}} {
     std::cout << "custom ctor\n";
   }
-// copy ctor -- deep copy
-  Vector(const Vector& v) : _size{v._size}, elem{new num[_size]} {
-  std::cout << "copy ctor\n";
-  for (std::size_t i = 0; i < _size; ++i)
-    elem[i] = v[i];
-  //std::copy???
-}
+
+  // Vector(const std::initializer_list<num> args)
+  //     : _size{args.size()}, elem{new num[_size]} {
+  //   std::cout << "list ctor\n";
+  //   std::uninitialized_copy(args.begin(), args.end(), begin());
+  // }
+
+  // default ctor
+  Vector() { std::cout << "default ctor\n"; }
+  // Vector() = default;
+  // Vector() : _size{}, elem{} { std::cout << "default ctor\n"; }
+
+  // copy semantics
+  // copy ctor -- deep copy
+  Vector(const Vector& v);
+
+  // copy assignment -- deep copy
+  Vector& operator=(const Vector& v);
+
+  // move semantics
   // move ctor
   Vector(Vector&& v) noexcept
       : _size{std::move(v._size)}, elem{std::move(v.elem)} {
     std::cout << "move ctor\n";
   }
 
- ////////////////////////////////////////// 
-// copy assignment
-Vector& operator=(const Vector& v) {
-  std::cout << "copy assignment\n";
-
-  _size = v._size;
-  elem.reset(new num[_size]);
-
-  // for (std::size_t i = 0; i < _size; ++i)
-  //   elem[i] = v[i];
-  std::copy(v.begin(), v.end(), this->begin());             //???
-  return *this;
-  // is this approach consistent with self-assignment vx=vx?
-}
-  
   // move assignment
   Vector& operator=(Vector&& v) noexcept {
     std::cout << "move assignment\n";
@@ -65,9 +60,38 @@ Vector& operator=(const Vector& v) {
   num* end() noexcept { return &elem[0] + _size; }
 };
 
+// copy ctor
+template <typename num>
+Vector<num>::Vector(const Vector& v) : _size{v._size}, elem{new num[_size]} {
+  std::cout << "copy ctor\n";
+  for (std::size_t i = 0; i < _size; ++i)
+    elem[i] = v[i];
+  // std::uninitialized_copy(v.begin(),v.end(),this->begin()); //use placement
+  // new
+}
 
-/////////////////////////////////////////////////////////////////////
+// copy assignment
+template <typename num>
+Vector<num>& Vector<num>::operator=(const Vector& v) {
+  std::cout << "copy assignment\n";
 
+  // we could decide that this operation is allowed if and only if
+  // _size == v._size
+  //
+  // AP_assert(_size == v._size, "Vector lenght mismatch");
+  // probably the just mentioned approach is safier..
+
+  _size = v._size;
+  elem.reset(new num[_size]);
+
+  // for (std::size_t i = 0; i < _size; ++i)
+  //   elem[i] = v[i];
+
+  std::copy(v.begin(), v.end(), this->begin());             //???
+  return *this;
+
+  // is this approach consistent with self-assignment vx=vx?
+}
 
 template <typename num>
 Vector<num> operator+(const Vector<num>& lhs, const Vector<num>& rhs) {
@@ -90,8 +114,6 @@ std::ostream& operator<<(std::ostream& os, const Vector<num>& v) {
   os << std::endl;
   return os;
 }
-
-////////////////////////////////////////////////////////////////////////////////////////////
 
 int main() {
   try {

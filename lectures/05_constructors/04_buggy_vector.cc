@@ -25,6 +25,11 @@ class Vector {
 
 int main() {
   Vector<double> v1{7};
-//  Vector<double> v2{v1}; // default copy ctor:: use of deleted function ‘Vector<double>::Vector(const Vector<double>&)’
-  return 0;
+  //Vector<double> v2{v1}; // default copy ctor:: use of deleted function ‘Vector<double>::Vector(const Vector<double>&)’
+  //Vector<double> v2{std::copy(v1)}; // same as above?
+  Vector<double> v2{std::move(v1)}; // this works?!
+  std::cout<<v2[0]<<std::endl;        
+  std::cout<<v1[0]<<std::endl;        //but then v1 gives segfault?
+ 
+ return 0;
 }
