@@ -4,11 +4,26 @@ template <typename value_type>
 class List {
  public:
    // implement suitable constructor(s) for List
-  List(){_size=0;}
+  List(){_size=0;head=nullptr;}
      
   // insert a new node with the value v according to the method m
   // this method should be used to fill the list
-  void insert(const value_type& v, const Insertion_method m);
+  void insert(const value_type& v, const Insertion_method m)
+  {
+  _size++;
+  if(_size==1) {
+      head=*val;
+      a=node{val,nullptr};
+  }
+  else if (m==Insertion_method::push_back)
+  {
+      
+      
+  }
+  else if (m==Insertion_method::push_front){
+  head=*val;
+  }
+  }
 
   // print the values of the nodes
   void print();
@@ -34,7 +49,7 @@ class List {
     // implement suitable constructor(s) for node
   };
   
-  node(value_type val): val{val} {};
+  node(value_type val, value_type *ptr): val{val} next{*ptr} {};
 
   // append the newly created node at the end of the list
   void push_back(const value_type& v) {next=nullptr;};
