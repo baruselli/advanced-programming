@@ -12,16 +12,17 @@ struct Animal {
 
   Animal() : Animal{0, 0} {}  // delegating constructor
 
-  virtual void speak() const noexcept { std::cout << "Unknown\n"; }
+  virtual void speak() const noexcept { std::cout << "Unknown\n"; }     //to be overridden in the children; can be slower than a
+                                                                        //normal fct up to 25%: should bot be called too much
   virtual void info() const noexcept {
     std::cout << "age:\t" << age << '\n' << "weight:\t" << weight << '\n';
   }
 
-  virtual ~Animal() {}
+  virtual ~Animal() {}                  //virtual destructor when we have a virtual fct
 };
 
 struct Dog : public Animal {
-  void speak() const noexcept override { std::cout << "Bau\n"; }
+  void speak() const noexcept override { std::cout << "Bau\n"; }    //overriding the parent's fct;final: cannot be anymore overridden
   Dog() = default;
   Dog(const unsigned int a, const double d) : Animal{a, d} {}
 };

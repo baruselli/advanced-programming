@@ -66,7 +66,8 @@ int main() {
 
     newline();
 
-    Animal* p = new Snake{1, 2.3, false};
+    Animal* p = new Snake{1, 2.3, false};       //assign a child to a parent type (only for pointers and references), but from it
+                                                // I can only access parent's types
     std::cout << "through pointer\n";
     p->info();
     p->speak();
@@ -75,7 +76,7 @@ int main() {
 
     newline();
 
-    print_animal(s);
+    print_animal(s);                            //i can call it with a snake, but it calls the info of animal, not of snake
 
     return 0;
   } catch (std::runtime_error& e) {
