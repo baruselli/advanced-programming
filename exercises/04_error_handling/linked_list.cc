@@ -11,33 +11,10 @@ class List {
   void insert(const value_type& v, const Insertion_method m)
   {
     _size++;
-    if(_size==1 || m==Insertion_method::push_front){
-        std::cout<<"Inserting "<< v << " with push_front "<<std::endl;
-        node *old_head=head.get();
-        std::cout<<"head was at " <<old_head<<std::endl;
- //       ptr=      //the new node points to the old head; when _size==0->1  head=nullptr
- //       std::cout<<"new node at "<< ptr  << " with value " << ptr->val  <<" and next at " << ptr->next.get()  << std::endl; 
-        head.reset(new node{v,old_head});               //the new node is now the head
-        std::cout<<" head is at "<< head.get() << " with value " << head->val <<" and next at " << head->next.get() << std::endl; 
-    }
-    else if (m==Insertion_method::push_back)          //at the end of the list
-    {
-        std::cout<<"Inserting " <<v<< " with push_back "<<std::endl;
-//        std::cout<<"head was at " <<head.get()<<std::endl;
-        node *ptr;
-        ptr=head.get();
-        while(ptr !=nullptr){                   //I traverse the list with ptr
-            if( ptr->next.get()==nullptr) {
-                ptr->next.reset(new node{v,nullptr});
-                break;}
-            ptr=ptr->next.get();}
-        //std::cout<<" head is at "<< head.get()<< " with value "<< head->val<<" and next at "<< head->next.get()<< std::endl;
-    }    
-    else{
-     std::cout << "smthing wrong in insert"<<std::endl;   
-    }
- 
-    }
+    if(_size==1 || m==Insertion_method::push_front) push_front(v);
+    else if (m==Insertion_method::push_back)        push_back(v); 
+    else std::cout << "smthing wrong in insert"<<std::endl;   
+  }
 
   // print the values of the nodes
   void print(){
@@ -53,18 +30,21 @@ class List {
     }
       
     std::cout << "-----"<<std::endl;
-      
-      
   }
 
   // return the size of the list
   unsigned int size(){return _size;}
 
   // delete all the nodes of the list
-  void reset() {_size=0;}
+  void reset() {_size=0; head=nullptr;}
 
   // prune node storing the value v
-  void prune_node(const value_type v);
+  void prune_node(value_type v, Insertion_method m){
+    if(_size<=0) std::cout<< "Cannot prune, list is empty"   << std::endl;
+    else if(m==Insertion_method::push_front) {v=pull_front();    std::cout << "I got " << v << std::endl;}
+    else if (m==Insertion_method::push_back) {v=pull_back();     std::cout << "I got " << v << std::endl;}
+    else std::cout << "smthing wrong in insert"<<std::endl;   
+  }
 
 
 
@@ -77,17 +57,73 @@ class List {
     node(value_type v, node *ptr): val{v}, next{ptr} {};
   };
 
-  
-//  std::unique_ptr<node> head;
   unsigned int _size;
   std::unique_ptr<node> head;
+  
+///////////////////////////////////////////////////////////////////
+// append the newly created node at the beginning of the list
+  void push_front(const value_type& v)
+    {
+        std::cout<<"Inserting "<< v << " with push_front "<<std::endl;
+ //       std::cout<<"head was at " <<head.get()<<std::endl;
+        head.reset(new node{v,head.release()});
+//        std::cout<<" head is at "<< head.get() << " with value " << head->val <<" and next at " << head->next.get() << std::endl; 
+    }
+
+// insert the newly created node at the end of the list
+  void push_back(const value_type& v)    {
+        std::cout<<"Inserting " <<v<< " with push_back "<<std::endl;
+        node *ptr;
+        ptr=head.get();
+        while(ptr !=nullptr){                   //I traverse the list with ptr
+            if( ptr->next.get()==nullptr) {
+                ptr->next.reset(new node{v,nullptr});
+                break;}
+            ptr=ptr->next.get();}
+    }    
+
+/////////////////////////////////////////////////////////
+// removes value at the beginning of the list
+  const value_type pull_front()
+    {
+        _size--;
+        std::cout<<"Removing with pull_front... ";
+ //       std::cout<<"head was at " <<head.get()<<std::endl;
+        value_type v = head->val;
+        head.reset(head->next.release());
+//     std::cout<<" head is at "<<head.get()<<" with value "<<head->val<<" and next at "<<head->next.get()<< std::endl; 
+        return v;
+    }
+
+// removes value at the end of the list
+  const value_type pull_back()
+    {
+        _size--;
+        value_type v;
+        std::cout<<"Removing with pull_back... ";
+        node *ptr;
+        ptr=head.get();
+        while(ptr !=nullptr){                   //I traverse the list with ptr
+            if( ptr->next.get()==nullptr) {
+                v = ptr->val;
+                break;}
+            ptr=ptr->next.get();}
  
-  // append the newly created node at the end of the list
- // void push_back(const value_type& v) {}
+ //here I reset the pointer of the new tail
+        if (_size==0) head.reset(nullptr);
+        else{
+          ptr=head.get();
+          for (unsigned int i=0; i<_size-1; i++){
+              ptr=ptr->next.get();}
+          ptr->next.reset(nullptr);
+        }
+        
+        return v;
+    }
+        
+    
 
-  // insert the newly created node in front of the list
- // void push_front(const value_type& v);
-
+    
 };
 
 
@@ -97,8 +133,9 @@ int main()
     
 try{
 List<int> l;
+int res=0;
 l.print();
-l.insert(3,Insertion_method::push_front);
+l.insert(3,Insertion_method::push_back);
 l.print();
 l.insert(2,Insertion_method::push_back);
 l.print();
@@ -106,8 +143,49 @@ l.insert(6,Insertion_method::push_back);
 l.print();
 l.insert(8,Insertion_method::push_back);
 l.print();
-l.insert(4,Insertion_method::push_front);
+l.insert(4,Insertion_method::push_back);
 l.print();
+l.prune_node(res,Insertion_method::push_back);
+l.print();
+l.prune_node(res,Insertion_method::push_back);
+l.print();
+l.prune_node(res,Insertion_method::push_back);
+l.print();
+l.prune_node(res,Insertion_method::push_back);
+l.print();
+l.prune_node(res,Insertion_method::push_back);
+l.print();
+l.prune_node(res,Insertion_method::push_back);
+l.print();
+l.insert(2,Insertion_method::push_back);
+l.insert(6,Insertion_method::push_back);
+l.insert(3,Insertion_method::push_back);
+l.insert(7,Insertion_method::push_back);
+l.print();
+l.prune_node(res,Insertion_method::push_front);
+l.print();
+l.prune_node(res,Insertion_method::push_front);
+l.print();
+l.insert(8,Insertion_method::push_front);
+l.insert(9,Insertion_method::push_front);
+l.print();
+l.prune_node(res,Insertion_method::push_front);
+l.print();
+l.prune_node(res,Insertion_method::push_front);
+l.print();
+l.prune_node(res,Insertion_method::push_front);
+l.print();
+l.prune_node(res,Insertion_method::push_front);
+l.print();
+l.prune_node(res,Insertion_method::push_front);
+l.print();
+l.prune_node(res,Insertion_method::push_front);
+l.print();
+
+//l.insert(12,Insertion_method::push_back);
+//l.print();
+//l.prune_node(res,Insertion_method::push_front);
+//l.print();
 }
 
 catch(std::runtime_error &e){
