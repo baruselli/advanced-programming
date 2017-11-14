@@ -46,7 +46,7 @@ class List {
   unsigned int size(){return _size;}
 
   // delete all the nodes of the list
-  void reset() {_size=0; head=nullptr; tail=nullptr;}
+  void reset() {_size=0; head.release(); tail.release();}
 
   // prune node storing the value v
   void prune_node(value_type v, Insertion_method m){
@@ -197,6 +197,7 @@ l.insert(9,Insertion_method::push_front);
 l.print();
 l.prune_node(res,Insertion_method::push_front);
 l.print();
+l.reset();
 l.prune_node(res,Insertion_method::push_front);
 l.print();
 l.prune_node(res,Insertion_method::push_front);
