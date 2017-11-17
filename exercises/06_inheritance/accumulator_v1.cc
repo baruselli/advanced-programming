@@ -10,7 +10,7 @@ class Matrix {
     // check size
     for (int i = 0; i < _size; ++i)
       elem[i] += r[i];
-    return *this;
+    return *this;           //return l
   }
 
   Matrix(const int r, const int c)
@@ -102,7 +102,8 @@ std::ostream& operator<<(std::ostream& os, const Matrix<num>& m) {
 template <typename num>
 Matrix<num> operator+(Matrix<num> l, const Matrix<num>& r) {
   // check dimensions
-  return std::forward<Matrix<num>>(l += r);
+  return std::forward<Matrix<num>>(l += r);     //if l is temporary, can be used as an r value -> it then calls the move assignment
+                                                //std:move always returns an r value, std::forward undertsands if it is l or r
 }
 
 int main() {

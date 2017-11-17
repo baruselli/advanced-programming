@@ -1,3 +1,5 @@
+//the fastest
+
 #include <iostream>
 #include <memory>  //smart pointers
 #include <ap_error.h>
@@ -8,7 +10,7 @@ struct MatrixExpression {
   auto operator[](const int i) const noexcept {
     return static_cast<const ET&>(*this)[i];
   }
-  auto row() const noexcept { return static_cast<const ET&>(*this).row(); }
+  auto row() const noexcept { return static_cast<const ET&>(*this).row(); }     //auto in std14 as a return
   auto col() const noexcept { return static_cast<const ET&>(*this).col(); }
 };
 

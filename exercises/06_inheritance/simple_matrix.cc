@@ -108,16 +108,16 @@ Matrix<num> operator+(const Matrix<num>& l, const Matrix<num>& r) {
 int main() {
   try {
     constexpr std::size_t N = 20000;
-    Matrix<double> m0(N, 10000);
-    Matrix<double> m1(N, 10000);
-    Matrix<double> m2(N, 10000);
-    Matrix<double> m3(N, 10000);
-    Matrix<double> m4(N, 10000);
-    Matrix<double> m5(N, 10000);
-    Matrix<double> m6(N, 10000);
-    Matrix<double> m7(N, 10000);
-    Matrix<double> m8(N, 10000);
-    Matrix<double> m9(N, 10000);
+    Matrix<double> m0(N, 1000);
+    Matrix<double> m1(N, 1000);
+    Matrix<double> m2(N, 1000);
+    Matrix<double> m3(N, 1000);
+    Matrix<double> m4(N, 1000);
+    Matrix<double> m5(N, 1000);
+    Matrix<double> m6(N, 1000);
+    Matrix<double> m7(N, 1000);
+    Matrix<double> m8(N, 1000);
+    Matrix<double> m9(N, 1000);
 
     // int c=0;
     // for (auto& x : m0) {
@@ -126,9 +126,11 @@ int main() {
 
     // const auto mm = m1 + m1 + m1 + m1 + m1 + m1 + m1 + m1 + m1;
     auto t1 = std::chrono::high_resolution_clock::now();
-    Matrix<double> rh{m0 + m1 + m2 + m3 + m4 + m5 + m6 + m7 + m8 + m9};
+    Matrix<double> rh{m0 + m1 + m2 + m3 + m4 + m5 + m6 + m7 + m8 + m9};     // a new res matrix is allocated at each + ->inefficient!
     // Matrix<double> rh {m0 + m0 + m0 + m0 + m0 + m0 + m0 + m0 + m0 + m0};
 
+    //better to do +=m0, +=m1, +=m2
+    
     auto t2 = std::chrono::high_resolution_clock::now();
 
     auto t_f = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1);
