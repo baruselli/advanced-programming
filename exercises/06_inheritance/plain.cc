@@ -160,17 +160,17 @@ Matrix<num> sumten(const Matrix<num>& m0,
 
 int main() {
   try {
-    constexpr std::size_t N = 20000;
-    Matrix<double> m0(N, 10000);
-    Matrix<double> m1(N, 10000);
-    Matrix<double> m2(N, 10000);
-    Matrix<double> m3(N, 10000);
-    Matrix<double> m4(N, 10000);
-    Matrix<double> m5(N, 10000);
-    Matrix<double> m6(N, 10000);
-    Matrix<double> m7(N, 10000);
-    Matrix<double> m8(N, 10000);
-    Matrix<double> m9(N, 10000);
+    constexpr std::size_t N = 2000;
+    Matrix<double> m0(N, 1000);
+    Matrix<double> m1(N, 1000);
+    Matrix<double> m2(N, 1000);
+    Matrix<double> m3(N, 1000);
+    Matrix<double> m4(N, 1000);
+    Matrix<double> m5(N, 1000);
+    Matrix<double> m6(N, 1000);
+    Matrix<double> m7(N, 1000);
+    Matrix<double> m8(N, 1000);
+    Matrix<double> m9(N, 1000);
     // Matrix<double> rh(N, 10000);
 
     // const auto mm = m1 + m1 + m1 + m1 + m1 + m1 + m1 + m1 + m1;

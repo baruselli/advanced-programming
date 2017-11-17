@@ -100,7 +100,7 @@ std::ostream& operator<<(std::ostream& os, const Matrix<num>& m) {
 }
 
 template <typename num>
-Matrix<num> operator+(const Matrix<num>& l, const Matrix<num>& r) {
+Matrix<num> operator+(const Matrix<num>& l, const Matrix<num>& r) {     //first time I use this
   // check dimensions
   Matrix<num> res{l.row(), l.col()};
   for (int i = 0; i < res.size(); ++i)
@@ -109,7 +109,7 @@ Matrix<num> operator+(const Matrix<num>& l, const Matrix<num>& r) {
 }
 
 template <typename num>
-Matrix<num> operator+(Matrix<num>&& l, const Matrix<num>& r) {
+Matrix<num> operator+(Matrix<num>&& l, const Matrix<num>& r) {          //after that, it uses this one with the r value
   // check dimensions
   return std::forward<Matrix<num>>(l += r);
 }
