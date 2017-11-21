@@ -10,13 +10,14 @@ class D_List : public List<value_type> {
 //class D_List {
  public:
   D_List();
+  ~D_List() { std::cout<< "dlist dtor"<<std::endl;};
 
 // print the values of the nodes,in both directions
   void print() override;  //override;
 
   void reset() override; // override {List::reset(); tail.release();}
 
-// private:
+ private:
  
  /* struct node {
     value_type val;

@@ -5,7 +5,7 @@ int main()
 {
     
 try{
-List<int> l;
+D_List<int> l;
 int res=0;
 l.print();
 l.insert(3,Insertion_method::push_back);
@@ -63,13 +63,23 @@ l.prune_node(res,Insertion_method::push_front);
 l.print();
 l.prune_node(res,Insertion_method::push_front);
 l.print();
-
-/*std::cout << "double linked list" <<std::endl;
+/*
+std::cout << "------------------------------double linked list----------------------------" <<std::endl;
 D_List<int> m;
 m.insert(12,Insertion_method::push_back);
 m.print();
 m.insert(13,Insertion_method::push_front);
-m.print();*/
+m.print();
+m.insert(14,Insertion_method::push_back);
+m.print();
+std::cout <<"maximum is " << m.maximum()<<std::endl;
+std::cout <<"minimum is " << m.minimum()<<std::endl;
+std::cout <<m.find_value(8)<<std::endl;
+std::cout <<m.find_value(12)<<std::endl;
+
+std::cout << m.get_at_index(0)<<m.get_at_index(1)<<m.get_at_index(2)<<m.get_at_index(3)<<m.get_at_index(4)<<std::endl;
+*/
+
 //m.prune_node(res,Insertion_method::push_front);
 //m.print();
 }

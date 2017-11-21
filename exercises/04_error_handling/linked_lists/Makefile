@@ -2,7 +2,7 @@ EXE = exe.x
 CXX = c++
 CFLAGS = -I include -g -std=c++11 -Wall -Wextra 
 
-SRC= main.cc src/linked_list.cc
+SRC= main.cc src/linked_list.cc src/double_linked_list.cc
 OBJ=$(SRC:.cc=.o)
 INC = $(wildcard *.h)
 
@@ -24,8 +24,9 @@ documentation: Doxygen/doxy.in
 	doxygen $^
 
 
-main.o: include/linked_list.h
+main.o: include/linked_list.h include/double_linked_list.h
 src/linked_list.o: include/linked_list.h
+src/double_linked_list.o: include/linked_list.h include/double_linked_list.h
 
 #src/double_linked_list.o: include/linked_list.h  include/double_linked_list.h
 

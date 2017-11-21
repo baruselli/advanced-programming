@@ -17,6 +17,7 @@ class List {
  public:
   /** std ctor */   
   List();
+  virtual ~List() {std::cout<< "list dtor"<<std::endl;};
     
   /**inserts a value*/  
   void insert(const value_type& v, const Insertion_method m);
@@ -31,7 +32,7 @@ class List {
   virtual void reset() {_size=0; head.release();};
 
   /** prune node storing the value v*/
-  virtual void prune_node(value_type v, Insertion_method m);
+  void prune_node(value_type v, Insertion_method m);
 
   /** gets value at index i */
   value_type get_at_index(unsigned int i);
@@ -47,7 +48,7 @@ class List {
   
 
   
-// private:
+ protected: //must be used by child
  
   struct node {
     value_type val;
@@ -61,6 +62,8 @@ class List {
     unsigned int _size;
   std::unique_ptr<node> head;
   std::unique_ptr<node> tail;
+  node* ptr;
+  
   
 /** append a node at the beginning of the list*/
   virtual void push_front(const value_type& v);
