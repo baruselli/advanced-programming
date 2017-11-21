@@ -5,6 +5,18 @@
 #include <memory>
 #include "linked_list.h"
 
+
+template <typename value_type>
+  class d_node : public node<value_type> {
+  public:
+    std::unique_ptr<d_node> previous;
+
+    d_node(value_type v, d_node *ptr, d_node *ptr2): node<value_type>{v,ptr},previous{ptr2} {};
+    d_node(value_type v, d_node *ptr):               node<value_type>{v,ptr},previous{nullptr} {};
+    d_node(value_type v):                            node<value_type>{v,nullptr},previous{nullptr} {};
+  };
+
+
 template <typename value_type>
 class D_List : public List<value_type> {
 //class D_List {
@@ -19,6 +31,8 @@ class D_List : public List<value_type> {
 
  private:
  
+    std::unique_ptr<node<value_type>> tail;
+
  /* struct node {
     value_type val;
     std::unique_ptr<node> next;

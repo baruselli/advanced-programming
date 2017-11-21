@@ -3,14 +3,15 @@
 #include "double_linked_list.h"
 
 template <typename value_type>
-  D_List<value_type>::D_List() : List<value_type>::List() { std::cout<< "dlist ctor"<<std::endl;}
+//  D_List<value_type>::D_List() : List<value_type>::List() { std::cout<< "dlist ctor"<<std::endl;}
+  D_List<value_type>::D_List() : List<value_type>::List(),tail{nullptr} { std::cout<< "dlist ctor"<<std::endl;}
 
 // print the values of the nodes,in both directions
 template <typename value_type>
   void D_List<value_type>::print() {
     List<value_type>::print();
     
-    List<value_type>::ptr=List<value_type>::tail.get();
+    List<value_type>::ptr=tail.get();
     if(List<value_type>::ptr==nullptr)  std::cout<<"tail is null "<<std::endl;
     int counter=1;
     while(List<value_type>::ptr !=nullptr){
@@ -24,7 +25,7 @@ template <typename value_type>
 
 
 template <typename value_type>
-  void D_List<value_type>::reset()  {List<value_type>::reset(); List<value_type>::tail.release();}
+  void D_List<value_type>::reset()  {List<value_type>::reset(); tail.release();}
 
 
   
@@ -38,14 +39,14 @@ template <typename value_type>
  //       std::cout<<"size " <<List<value_type>::_size<<std::endl;
        if (List<value_type>::_size==1) {
 //            std::cout<<"head was at " <<head.get()<<std::endl;
-            List<value_type>::ptr=new typename List<value_type>::node{v,nullptr,nullptr};
+            List<value_type>::ptr=new node<value_type>{v,nullptr,nullptr};
             List<value_type>::head.reset(List<value_type>::ptr);
-            List<value_type>::tail.reset(List<value_type>::ptr);
+            tail.reset(List<value_type>::ptr);
             //tail=head;
         }
         else{
 //            std::cout<<"head was at " <<head.get()<<" followed by " << head->next.get() <<std::endl;
-            List<value_type>::ptr=new typename List<value_type>::node{v,List<value_type>::head.release(),nullptr};   //the new node has null before, and the former head after
+            List<value_type>::ptr=new node<value_type>{v,List<value_type>::head.release(),nullptr};   //the new node has null before, and the former head after
             List<value_type>::head.reset(List<value_type>::ptr);      //the new node is set as the head
 //           head->previous=head;  //the former head gets the new node as previous; must use = so shared pointers know they share ptr
            List<value_type>::head->next->previous.reset(List<value_type>::ptr);  //the former head gets the new node as previous
@@ -60,15 +61,15 @@ template <typename value_type>
         List<value_type>::_size++;
         if (List<value_type>::_size==1) {
  //           std::cout<<"tail was at " <<tail.get()<<std::endl;
-            List<value_type>::ptr=new typename List<value_type>::node{v,nullptr,nullptr};
-            List<value_type>::tail.reset(List<value_type>::ptr);
+            List<value_type>::ptr=new node<value_type>{v,nullptr,nullptr};
+            tail.reset(List<value_type>::ptr);
             List<value_type>::head.reset(List<value_type>::ptr); //=tail;
         }
         else{
 //            std::cout<<"tail was at " <<tail.get()<<" preceded by " << tail->previous.get() <<std::endl;
-            List<value_type>::ptr=new typename List<value_type>::node{v,nullptr,List<value_type>::tail.release()};   //the new node has null after, and the former tail before
-            List<value_type>::tail.reset(List<value_type>::ptr);            //the new node is set as the tail
-            List<value_type>::tail->previous->next.reset(List<value_type>::ptr);      //the former tail gets the new node as next
+            List<value_type>::ptr=new node<value_type>{v,nullptr,tail.release()};   //the new node has null after, and the former tail before
+            tail.reset(List<value_type>::ptr);            //the new node is set as the tail
+            tail->previous->next.reset(List<value_type>::ptr);      //the former tail gets the new node as next
         }
         
  //       std::cout<<" tail is at "<< tail.get() << " with value " << tail->val <<" and previous at " << tail->previous.get() << std::endl; 
@@ -86,7 +87,7 @@ template <typename value_type>
         if(List<value_type>::_size>0)List<value_type>::head->previous.release();
     //    head->previous.reset(nullptr);
         if(List<value_type>::_size==0) List<value_type>::head.release();
-        if(List<value_type>::_size==0) List<value_type>::tail.release();
+        if(List<value_type>::_size==0) tail.release();
         return v;
     }
 
@@ -97,11 +98,11 @@ template <typename value_type>
         List<value_type>::_size--;
         std::cout<<"Removing with pull_back... ";
 //        std::cout<<" tail is at "<< tail.get() << " with value " << tail->val <<" and previous at " << tail->previous.get() << "and next at "<< tail->next.get()<<std::endl;
-        value_type v = List<value_type>::tail->val;
+        value_type v = tail->val;
         if(List<value_type>::_size==0) List<value_type>::head.release();
-        if(List<value_type>::_size==0) List<value_type>::tail.release();
-        if(List<value_type>::_size>0)List<value_type>::tail.reset(List<value_type>::tail->previous.release());
-        if(List<value_type>::_size>0)List<value_type>::tail->next.release();
+        if(List<value_type>::_size==0) tail.release();
+        if(List<value_type>::_size>0)tail.reset(tail->previous.release());
+        if(List<value_type>::_size>0)tail->next.release();
 //        std::cout<<" tail is at "<< tail.get() << " with value " << tail->val <<" and previous at " << tail->previous.get() << "and next at "<< tail->next.get()<<std::endl;
         return v;
     }

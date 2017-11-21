@@ -5,7 +5,8 @@ int main()
 {
     
 try{
-D_List<int> l;
+D_List<int> l;          //doubly linked
+//List<int> l;          //singly linked
 int res=0;
 l.print();
 l.insert(3,Insertion_method::push_back);
