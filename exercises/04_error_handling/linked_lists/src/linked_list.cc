@@ -2,13 +2,13 @@
 
 ////
   template <typename value_type>
-  List<value_type>::List(): _size{0}, head{nullptr},tail{nullptr} {}
+  List<value_type>::List(): _size{0}, head{nullptr},tail{nullptr} { {std::cout<< "list ctor"<<std::endl;}}
   
 ////     
   template <typename value_type>
   void List<value_type>::insert(const value_type& v, const Insertion_method m)
   {
-    std::cout << "insert size"<< _size << std::endl;
+//    std::cout << "insert size"<< _size << std::endl;
     if(_size==0 || m==Insertion_method::push_front) push_front(v);
     else if (m==Insertion_method::push_back)        push_back(v); 
     else std::cout << "smthing wrong in insert"<<std::endl;   
