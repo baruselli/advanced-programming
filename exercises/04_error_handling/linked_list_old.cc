@@ -1,5 +1,11 @@
 #include <iostream>
 #include <memory>
+#include <string>
+#include <stdexcept>
+
+struct index_error{
+ std::string message;   
+};
 
 enum class Insertion_method { push_back, push_front };
 
@@ -46,8 +52,77 @@ class List {
     else std::cout << "smthing wrong in insert"<<std::endl;   
   }
 
+/////
+  value_type get_at_index(unsigned int i){
+  if (i>=_size){
+ throw(index_error{"index i out of bound " + std::to_string(i)});
+  }
+  else{
+  node *ptr=head.get();
+  for (unsigned int j=0;j<i;j++)  ptr=ptr->next.get();
+  return ptr->val;
+  }
+  }
+  
+/////
+  int find_value(value_type v){
+  node *ptr=head.get();
+  unsigned int counter=0;
+  while (ptr !=nullptr){
+      if (v==ptr->val) return counter; 
+      ptr=ptr->next.get();
+      counter++;
+  }
+  return -1;
+  }
 
+/////
+  value_type maximum(){
+  if(_size<=0) { throw(index_error{"list is empty, cannot max"});}
+  else{
+    node *ptr=head.get();
+    value_type maxi=ptr->val;
+    while(ptr !=nullptr){
+      if (ptr->val>maxi) maxi=ptr->val;
+      ptr=ptr->next.get();
+  }
 
+      return maxi;
+}
+  }  
+  
+/////
+  value_type minimum(){
+  if(_size<=0) { throw(index_error{"list is empty, cannot min"});}
+  else{
+    node *ptr=head.get();
+    value_type mini=ptr->val;
+    while(ptr !=nullptr){
+      if (ptr->val<mini) mini=ptr->val;
+      ptr=ptr->next.get();
+  }
+
+      return mini;
+}
+  }  
+
+/////
+/*  void sort(){
+  if(_size<=1) { return;}
+  else{
+    value_type mini=minimum();
+    value_type maxi=maximum();
+    node *ptr=head.get();
+    while(ptr !=nullptr){
+      if (ptr->val<mini) mini=ptr->val;
+      ptr=ptr->next.get();
+  }
+
+      return mini;
+}
+  }  
+*/  
+  
  private:
  
   struct node {
@@ -145,9 +220,17 @@ l.insert(8,Insertion_method::push_back);
 l.print();
 l.insert(4,Insertion_method::push_back);
 l.print();
+std::cout << l.get_at_index(0)<<l.get_at_index(1)<<l.get_at_index(2)<<l.get_at_index(3)<<l.get_at_index(4)<<std::endl;
+std::cout <<l.find_value(8)<<std::endl;
+std::cout <<l.find_value(12)<<std::endl;
+std::cout <<"maximum is " << l.maximum()<<std::endl;
+std::cout <<"minimum is " << l.minimum()<<std::endl;
+//std::cout << l.get_at_index(5)<<std::endl;
+
+
 l.prune_node(res,Insertion_method::push_back);
 l.print();
-l.prune_node(res,Insertion_method::push_back);
+/*l.prune_node(res,Insertion_method::push_back);
 l.print();
 l.prune_node(res,Insertion_method::push_back);
 l.print();
@@ -186,12 +269,12 @@ l.print();
 //l.insert(12,Insertion_method::push_back);
 //l.print();
 //l.prune_node(res,Insertion_method::push_front);
-//l.print();
+//l.print();*/
 }
-
-catch(std::runtime_error &e){
-std::cout <<std::endl;
-
-}
+catch(const index_error& s) {std::cerr << s.message << std::endl;}
+//catch (std::runtime_error& e) {
+//    std::cerr << e.what() << std::endl;
+//    return 1;
+//  }
 
 }
