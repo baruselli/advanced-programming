@@ -5,7 +5,7 @@
 #include <memory>
 #include "linked_list.h"
 
-
+/*
 template <typename value_type>
   class d_node : public node<value_type> {
   public:
@@ -15,7 +15,7 @@ template <typename value_type>
     d_node(value_type v, d_node *ptr):               node<value_type>{v,ptr},previous{nullptr} {};
     d_node(value_type v):                            node<value_type>{v,nullptr},previous{nullptr} {};
   };
-
+*/
 
 template <typename value_type>
 class D_List : public List<value_type> {
