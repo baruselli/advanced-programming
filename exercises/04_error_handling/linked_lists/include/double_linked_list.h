@@ -22,7 +22,7 @@ class D_List : public List<value_type> {
 //class D_List {
  public:
   D_List();
-  ~D_List() { std::cout<< "dlist dtor"<<std::endl;};
+  ~D_List() { std::cout<< "dlist dtor"<<std::endl;this->reset();};
 
   void print() override;
 
