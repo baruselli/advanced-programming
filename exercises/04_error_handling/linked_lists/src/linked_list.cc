@@ -4,6 +4,41 @@
   template <typename value_type>
   List<value_type>::List(): _size{0}, head{nullptr} { {std::cout<< "list ctor"<<std::endl;}}
   
+  
+  template <typename value_type>
+  List<value_type>::  List(const List& m, bool deep): _size{m._size},  head{m.head.get()}
+  { std::cout<< "copy ctor (alias)"<<std::endl;
+      if(m._size>0 && deep){
+          _size=0;              //it is automatically updated by insert!
+        std::cout<< "deep copy"<<std::endl;  
+        node<value_type>* ptr2=m.head.get();         //ptr2 traverse the given list; cannot use ptr because it is used in insert
+        this->head.release();     //head is nullptr
+       while(ptr2!=nullptr){
+         this->insert(ptr2->val, Insertion_method::push_back);
+         ptr2=ptr2->next.get();
+       }
+      }
+
+}
+  
+
+// copy assignment
+  template <typename value_type>
+  List<value_type>& List<value_type>::operator=(const List<value_type>& m) {
+    std::cout << "copy assignment\n";
+         _size=0;              //it is automatically updated by insert!
+        std::cout<< "deep copy"<<std::endl;  
+        node<value_type>* ptr2=m.head.get();         //ptr2 traverse the given list; cannot use ptr because it is used in insert
+        this->head.release();     //head is nullptr
+       while(ptr2!=nullptr){
+         this->insert(ptr2->val, Insertion_method::push_back);
+         ptr2=ptr2->next.get();}
+
+    return *this;
+  }
+  
+
+  
 ////     
   template <typename value_type>
   void List<value_type>::insert(const value_type& v, const Insertion_method m)
@@ -15,8 +50,9 @@
 
 ////
   template <typename value_type>
-  void List<value_type>::print(){
+  void List<value_type>::print(std::string s){
     std::cout << "-----"<<std::endl;
+    std::cout << "name=" << s <<std::endl;
     std::cout << "size= "<<size()<<std::endl;
     
     ptr=head.get();

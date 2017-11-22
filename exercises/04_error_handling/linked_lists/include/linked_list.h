@@ -30,13 +30,26 @@ class List {
  public:
   /** std ctor */   
   List();
-  virtual ~List() {std::cout<< "list dtor"<<std::endl;this->reset();};
-    
+  virtual ~List() {std::cout<< "list dtor"<<std::endl;};
+ 
+  /**copy ctor: false:this is just an alias, but with problems, hence to avoid; true: deep copy*/
+  List(const List& m, bool deep);
+  /**by default, I use the deep copy*/
+  List(const List& m): List(m,true) {};
+  /** move ctor*/
+  List(List&& m) noexcept : _size{std::move(m._size)}, head{std::move(m.head)} {std::cout << "move ctor\n"; };
+
+  /** deep copy assignment*/
+  List& operator=(const List& m);
+  /** move assignment*/
+  List& operator=(List&& m) noexcept {std::cout<<"move ass.\n";_size = std::move(m._size);head=std::move(m.head);return *this;};
+  
   /**inserts a value*/  
   void insert(const value_type& v, const Insertion_method m);
 
   /** print the values of the nodes*/
-  virtual void print();
+  virtual void print(std::string s);
+  virtual void print() {print(std::string(""));};
 
   /** return the size of the list*/
   unsigned int size(){return _size;};

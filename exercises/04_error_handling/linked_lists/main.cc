@@ -5,20 +5,8 @@ int main()
 {
     
 try{
-    {
-D_List<int> l;          //doubly linked
-//List<int> l;          //singly linked
-int res=0;
-l.print();
-l.insert(3,Insertion_method::push_back);
-l.print();}
 
-D_List<int> m;          //doubly linked
-//List<int> l;          //singly linked
 int res=0;
-m.print();
-m.insert(2,Insertion_method::push_back);
-m.print();
 
 D_List<int>l;
 l.insert(2,Insertion_method::push_back);
@@ -91,7 +79,39 @@ l.print();
 //l.reset();
 //m.reset();
 
+std::cout<<"test copy"<<std::endl;
+List<int> l1;          
+l1.insert(3,Insertion_method::push_back);
+l1.insert(4,Insertion_method::push_back);
+l1.insert(5,Insertion_method::push_back);
+l1.print("l1");
 
+List<int> l2{l1,false};
+List<int> l3{l1,true};
+l2.print("l2 shallow copy of l1");
+l3.print("l3 deep copy of l1");
+l1.insert(6,Insertion_method::push_back);
+l1.insert(7,Insertion_method::push_back);
+l2.print("l2 after inserting in l1: is the same as l1 but size is not updated");
+l3.print("l3 after inserting in l1");
+l1.print("l1 after inserting in l1");
+
+List<int> l4;
+l4=std::move(l1);
+l1.print("l1 after moving l1 to l4 (undefined behavior)");
+l4.print("l4 after moving l1 to l4");
+l2.print("l2, shallow copy of l1,  after moving l1 to l4");
+
+List<int> l5;
+l5=l4;
+l5.print("l5 deep copy of  l4");
+
+List<int> l6;
+List<int> l7{l6};
+l6.insert(6,Insertion_method::push_back);
+l6.insert(7,Insertion_method::push_back);
+l6.print("l6");
+l7.print("l7 shallow copy of l6 when it was empty (remains null because then I cannot copy the pointer to head)");
 
 
 /*
