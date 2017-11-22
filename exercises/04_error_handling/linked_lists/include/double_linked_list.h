@@ -24,10 +24,9 @@ class D_List : public List<value_type> {
   D_List();
   ~D_List() { std::cout<< "dlist dtor"<<std::endl;};
 
-// print the values of the nodes,in both directions
-  void print() override;  //override;
+  void print() override;
 
-  void reset() override; // override {List::reset(); tail.release();}
+  void reset() override  {List<value_type>::reset(); tail.release();} 
 
  private:
  

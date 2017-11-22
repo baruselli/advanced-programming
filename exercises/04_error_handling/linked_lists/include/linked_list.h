@@ -42,7 +42,7 @@ class List {
   unsigned int size(){return _size;};
 
   /** delete all the nodes of the list*/
-  virtual void reset() {_size=0; head.release();};
+  virtual void reset() {std::cout<< "resetting list...";_size=0; head.release();std::cout<< "ok"<<std::endl;};
 
   /** prune node storing the value v*/
   void prune_node(value_type v, Insertion_method m);

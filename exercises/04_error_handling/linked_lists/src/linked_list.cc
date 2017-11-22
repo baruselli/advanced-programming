@@ -2,7 +2,6 @@
 
 ////
   template <typename value_type>
-//  List<value_type>::List(): _size{0}, head{nullptr},tail{nullptr} { {std::cout<< "list ctor"<<std::endl;}}
   List<value_type>::List(): _size{0}, head{nullptr} { {std::cout<< "list ctor"<<std::endl;}}
   
 ////     
@@ -37,7 +36,7 @@
     if(_size<=0) std::cout<< "Cannot prune, list is empty"   << std::endl;
     else if(m==Insertion_method::push_front) {v=pull_front();    std::cout << "I got " << v << std::endl;}
     else if (m==Insertion_method::push_back) {v=pull_back();     std::cout << "I got " << v << std::endl;}
-    else std::cout << "smthing wrong in insert"<<std::endl;   
+    else std::cout << "smthing wrong in prune"<<std::endl;   
   }
 
 /////
