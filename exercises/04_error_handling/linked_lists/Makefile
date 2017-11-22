@@ -20,7 +20,7 @@ clean:
 $(EXE): $(OBJ)
 	$(CXX) $^ -o $(EXE)
 
-documentation: Doxygen/doxy.in
+documentation: Doxyfile
 	doxygen $^
 
 
