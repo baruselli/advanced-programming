@@ -6,9 +6,10 @@ template <typename value_type>
 //  D_List<value_type>::D_List() : List<value_type>::List() { std::cout<< "dlist ctor"<<std::endl;}
   D_List<value_type>::D_List() : List<value_type>::List(),tail{nullptr} { std::cout<< "dlist ctor"<<std::endl;}
 
-// print the values of the nodes,in both directions
+/** print the values of the nodes,in both directions*/
 template <typename value_type>
   void D_List<value_type>::print() {
+      
     List<value_type>::print();
     
     List<value_type>::ptr=tail.get();
@@ -22,97 +23,56 @@ template <typename value_type>
       std::cout << "-----"<<std::endl;
   }
 
-
-
-template <typename value_type>
-  void D_List<value_type>::reset()  {List<value_type>::reset(); tail.release();}
-
-
-  
-///////////////////////////////////////////////////////////////////
-// append the newly created node at the beginning of the list
+/** append a new node at the beginning of the d_list: calls the method from list, and correct for previous and tail*/
 template <typename value_type>
   void D_List<value_type>::push_front(const value_type& v)
     {    
-        List<value_type>::_size++;
         std::cout<<"Inserting "<< v << " with push_front from d_list"<<std::endl;
- //       std::cout<<"size " <<List<value_type>::_size<<std::endl;
-       if (List<value_type>::_size==1) {
-//            std::cout<<"head was at " <<head.get()<<std::endl;
-            List<value_type>::ptr=new node<value_type>{v,nullptr,nullptr};
-            List<value_type>::head.reset(List<value_type>::ptr);
-            tail.reset(List<value_type>::ptr);
-            //tail=head;
-        }
-        else{
-//            std::cout<<"head was at " <<head.get()<<" followed by " << head->next.get() <<std::endl;
-            List<value_type>::ptr=new node<value_type>{v,List<value_type>::head.release(),nullptr};   //the new node has null before, and the former head after
-            List<value_type>::head.reset(List<value_type>::ptr);      //the new node is set as the head
-//           head->previous=head;  //the former head gets the new node as previous; must use = so shared pointers know they share ptr
-           List<value_type>::head->next->previous.reset(List<value_type>::ptr);  //the former head gets the new node as previous
-        }
- //    std::cout<<" head is at "<< head.get() << " with value " << head->val <<" and next at " << head->next.get() << std::endl; 
+        List<value_type>::push_front(v);
+ 
+        if (List<value_type>::_size==1) tail.reset(List<value_type>::head.get());
+        else     List<value_type>::head->next->previous.reset(List<value_type>::head.get());  
+       //the former head, now head->next, gets the new node, now head, as previous
     }
 
-// insert the newly created node at the end of the list
+/** insert a new node at the end of the d_list: cannot call the method from single list because it is slow*/
 template <typename value_type>
   void D_List<value_type>::push_back(const value_type& v)    {
         std::cout<<"Inserting " <<v<< " with push_back from d_list"<<std::endl;
         List<value_type>::_size++;
-        if (List<value_type>::_size==1) {
- //           std::cout<<"tail was at " <<tail.get()<<std::endl;
-            List<value_type>::ptr=new node<value_type>{v,nullptr,nullptr};
-            tail.reset(List<value_type>::ptr);
-            List<value_type>::head.reset(List<value_type>::ptr); //=tail;
-        }
-        else{
-//            std::cout<<"tail was at " <<tail.get()<<" preceded by " << tail->previous.get() <<std::endl;
-            List<value_type>::ptr=new node<value_type>{v,nullptr,tail.release()};   //the new node has null after, and the former tail before
-            tail.reset(List<value_type>::ptr);            //the new node is set as the tail
-            tail->previous->next.reset(List<value_type>::ptr);      //the former tail gets the new node as next
-        }
-        
- //       std::cout<<" tail is at "<< tail.get() << " with value " << tail->val <<" and previous at " << tail->previous.get() << std::endl; 
+        tail.reset(new node<value_type>{v,nullptr,tail.release()});
+            
+        if (List<value_type>::_size==1) List<value_type>::head.reset(tail.get());
+        else                            tail->previous->next.reset(tail.get());      
+        //the former tail, now tail->previous, gets the new node, now tail, as next
+
   }
 
-/////////////////////////////////////////////////////////
-// removes value at the beginning of the list
+/** removes value at the beginning of the list: calls List::pull_front, then fixes tail/previous*/
 template <typename value_type>
   const value_type D_List<value_type>::pull_front()
     {
-        List<value_type>::_size--;
-        std::cout<<"Removing with pull_front... ";
-        value_type v = List<value_type>::head->val;
-        if(List<value_type>::_size>0)List<value_type>::head.reset(List<value_type>::head->next.release());
-        if(List<value_type>::_size>0)List<value_type>::head->previous.release();
-    //    head->previous.reset(nullptr);
-        if(List<value_type>::_size==0) List<value_type>::head.release();
+        std::cout<<"Removing with d_pull_front... ";
+        
+        value_type v=List<value_type>::pull_front();
+        if(List<value_type>::_size>0)  List<value_type>::head->previous.release();
         if(List<value_type>::_size==0) tail.release();
         return v;
     }
 
-// removes value at the end of the list
+/** removes value at the end of the list: cannot call method from single list, which is slow*/
 template <typename value_type>
   const value_type D_List<value_type>::pull_back()
     {
         List<value_type>::_size--;
         std::cout<<"Removing with pull_back... ";
-//        std::cout<<" tail is at "<< tail.get() << " with value " << tail->val <<" and previous at " << tail->previous.get() << "and next at "<< tail->next.get()<<std::endl;
         value_type v = tail->val;
+        tail.reset(tail->previous.release());
         if(List<value_type>::_size==0) List<value_type>::head.release();
-        if(List<value_type>::_size==0) tail.release();
-        if(List<value_type>::_size>0)tail.reset(tail->previous.release());
-        if(List<value_type>::_size>0)tail->next.release();
-//        std::cout<<" tail is at "<< tail.get() << " with value " << tail->val <<" and previous at " << tail->previous.get() << "and next at "<< tail->next.get()<<std::endl;
+        if(List<value_type>::_size>0)  tail->next.release();
         return v;
     }
         
-    
-
  
-
-
-
-
   template class D_List<int>;
   template class D_List<double>;
