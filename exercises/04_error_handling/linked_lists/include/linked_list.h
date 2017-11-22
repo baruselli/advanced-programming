@@ -30,7 +30,7 @@ class List {
  public:
   /** std ctor */   
   List();
-  virtual ~List() {std::cout<< "list dtor"<<std::endl;};
+  virtual ~List() {std::cout<< "list dtor"<<std::endl;this->reset();};
     
   /**inserts a value*/  
   void insert(const value_type& v, const Insertion_method m);
