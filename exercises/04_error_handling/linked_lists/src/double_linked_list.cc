@@ -2,15 +2,11 @@
 #include <memory>
 #include "double_linked_list.h"
 
-template <typename value_type>
-//  D_List<value_type>::D_List() : List<value_type>::List() { std::cout<< "dlist ctor"<<std::endl;}
-  D_List<value_type>::D_List() : List<value_type>::List(),tail{nullptr} { std::cout<< "dlist ctor"<<std::endl;}
-
 /** print the values of the nodes,in both directions*/
 template <typename value_type>
-  void D_List<value_type>::print() {
+  void D_List<value_type>::print(std::string s) {
       
-    List<value_type>::print();
+    List<value_type>::print(s);
     
     List<value_type>::ptr=tail.get();
     if(List<value_type>::ptr==nullptr)  std::cout<<"tail is null "<<std::endl;

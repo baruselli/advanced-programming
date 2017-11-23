@@ -113,6 +113,24 @@ l6.insert(7,Insertion_method::push_back);
 l6.print("l6");
 l7.print("l7 shallow copy of l6 when it was empty (remains null because then I cannot copy the pointer to head)");
 
+D_List<int> d1;          
+d1.insert(3,Insertion_method::push_back);
+d1.insert(4,Insertion_method::push_back);
+d1.insert(5,Insertion_method::push_back);
+d1.print("d1");
+
+std::cout<< "building d2"<<std::endl;
+//D_List<int> d2{std::move(d1)};
+//D_List<int> d2;
+//d2=std::move(d1);                      
+D_List<int> d2{d1};
+d2=d1;
+//d2=d1;
+
+d1.print("d1");
+d2.print("d2");
+D_List<int> d3{d2};
+d3.print("d3, deep copy of d2");
 
 /*
 std::cout << "------------------------------double linked list----------------------------" <<std::endl;

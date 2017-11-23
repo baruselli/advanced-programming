@@ -29,7 +29,7 @@ template <typename value_type>
 class List {
  public:
   /** std ctor */   
-  List();
+  List(): _size{0}, head{nullptr} { {std::cout<< "list ctor"<<std::endl;}}
   virtual ~List() {std::cout<< "list dtor"<<std::endl;};
  
   /**copy ctor: false:this is just an alias, but with problems, hence to avoid; true: deep copy*/

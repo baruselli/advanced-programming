@@ -21,10 +21,31 @@ template <typename value_type>
 class D_List : public List<value_type> {
 //class D_List {
  public:
-  D_List();
+  D_List(): List<value_type>::List(),tail{nullptr} { std::cout<< "dlist ctor"<<std::endl;};
   ~D_List() { std::cout<< "dlist dtor"<<std::endl;this->reset();};
+  
+  /**copy ctor: I use the single list ctor, which uses push_back from list-->does not work*/
+  D_List(const D_List& m, bool deep) : List<value_type>{m,deep} {if (not deep) tail.reset(m.tail.get());};
+  /**by default, I use the deep copy*/
+  D_List(const D_List& m): D_List(m,true) {};
+  /** move ctor works*/   
+  D_List(D_List&& m) noexcept : List<value_type>{std::move(m)}, tail{std::move(m.tail)} {std::cout << "move ctor d_list\n"; };
 
-  void print() override;
+  /** deep copy assignment: only copies the values; this works out of the box, using push_back from d_list*/
+  D_List& operator=(const D_List& m){List<value_type>::operator=(m);return *this;};
+  /** move assignment*/
+ //this works:
+ //D_List& operator=(D_List&& m) noexcept
+    {List<value_type>::_size = std::move(m._size);List<value_type>::head=std::move(m.head);tail=std::move(m.tail);return *this;};
+//this not:
+//(does a deep copy???)
+// D_List& operator=(D_List&& m) noexcept {List<value_type>::operator=(m);return *this;};
+//where
+// List& operator=(List&& m) noexcept {std::cout<<"move ass.\n";_size = std::move(m._size);head=std::move(m.head);return *this;};
+
+
+  void print(std::string s) override ;
+  void print() override {print(std::string(""));};
 
   void reset() override  {List<value_type>::reset(); tail.release();} 
 
